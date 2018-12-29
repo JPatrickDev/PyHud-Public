@@ -1,0 +1,4 @@
+<layout gridW="10" gridH="10">
+    <TextBox id="station_code" x="0" y="0" w="10" h="2" textHeight="0.8">BIW</TextBox>
+    <ListView id="train_list_view" x="0" y="2" w="10" h="8" layout_file = "list_layout.xml"></ListView>
+</layout>	

@@ -1,0 +1,7 @@
+<layout gridW="5" gridH="1">
+    <TextBox id="home_button" x="0" y="0" w="1" h="1" textHeight="0.5">H</TextBox>
+    <TextBox id="trains_button" x="1" y="0" w="1" h="1"  textHeight="0.5">T</TextBox>
+    <TextBox id="app_grid_button" x="2" y="0" w="1" h="1"  textHeight="0.05">...</TextBox>
+    <TextBox id="lights_button" x="3" y="0" w="1" h="1" textHeight="0.5">L</TextBox>
+    <TextBox id="settings_button" x="4" y="0" w="1" h="1"  textHeight="0.5">S</TextBox>
+</layout>

@@ -1,0 +1,5 @@
+<layout gridW="10" gridH="3">
+    <TextBox id="std" x="0" y="0" w="2" h="3" textWidth="1"></TextBox>
+    <TextBox id="dest" x="2" y="0" w="6" h="3" textWidth="0.8"></TextBox>
+    <TextBox id="etd" x="8" y="0" w="2" h="3" textWidth="1"></TextBox>
+</layout>

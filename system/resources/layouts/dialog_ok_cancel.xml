@@ -1,0 +1,4 @@
+<layout gridW="2" gridH="1">
+    <TextBox id="dialog_ok" x="0" y="0" w="1" h="1" textHeight="0.8">OK</TextBox>
+    <TextBox id="dialog_cancel" x="1" y="0" w="1" h="1"  textHeight="0.8">Cancel</TextBox>
+</layout>
