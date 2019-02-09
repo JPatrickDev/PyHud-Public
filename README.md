@@ -1,5 +1,5 @@
 # PyHud
-A Python "Operating System", designed for making custom dashboards/tablets. 
+An Android-inspired Python "Operating System", optimised for Touch input. 
 
 ### Project Overview
 This project is designed for use with a Raspberry Pi B+, but should work on any device that can run Python and pygame.
@@ -10,12 +10,6 @@ However the project actually runs on Python3 and pygame, meaning it can be ran e
 
 The rendering engine is also fairly efficient, hopefully allowing a smooth user experience on low-end devices. 
 
-### Features
-* Rendering engine only redraws the parts of the screen that have changed, allowing good performance on lower-end devices. 
-* UI Elements are designed to be used with touch-input, but a mouse will also work fine. 
-* The UI System automatically resizes apps to match the current screen size, allowing one app to run on many devices. 
-* Built on pygame - Lots of documentation available.
-* Extensible - Build your own apps and create new UI Elements.
 
 ### Creating new Apps
 Please see the systemapps folder for some examples of existing applications. Hopefully this is enough to get you started with development until I have time to create some more formal tutorials.
