@@ -1,0 +1,5 @@
+{
+  "app_name" : "WeatherApp",
+  "app_version" : "1.0",
+  "requires_headless" : "True"
+}

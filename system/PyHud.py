@@ -5,16 +5,17 @@ import pygame
 import sys
 
 from app.internal.AppLoader import AppLoader
+from system.Stack import Stack
 from ui.dialogs.AppDialog import AppDialog
 from ui.dialogs.Dialog import Dialog
 from ui.dialogs.LayoutDialog import LayoutDialog
+from ui.font.fonts import FontSystem
 from ui.layout.LayoutInflator import LayoutInflator
 from .util.EventScheduler import *
 
 
 class PyHud(object):
-
-    VERSION = "1.0"
+    VERSION = "1.1"
 
     def __init__(self):
         self.screen = None
@@ -30,10 +31,12 @@ class PyHud(object):
         self.draggingApp = None
         self.previousMousePos = (-1, -1)
         self.page = "home"
+
+        self.dialogs = Stack()
         self.dialog = None
 
-        self.gridTWidth = 10
-        self.gridTHeight = 10
+        self.gridTWidth = 50
+        self.gridTHeight = 50
         self.gridPWidth = 0
         self.gridPHeight = 0
 
@@ -41,6 +44,8 @@ class PyHud(object):
         self.appLoader = AppLoader()
 
         self.runningApps = []
+
+        self.previous_debug = False
 
     def start(self):
         try:
@@ -50,10 +55,12 @@ class PyHud(object):
                 self.width = int(data['width'])
                 self.height = int(data['height'])
                 self.fullScreen = data['fullscreen']
+                self.configData = data
         except FileNotFoundError:
             print("No config file found")
             sys.exit()
 
+        self.font_system = FontSystem(self)
         self.gridPWidth = self.width / self.gridTWidth
         self.gridPHeight = self.height / self.gridTHeight
         self.background = pygame.image.load("background.jpg")
@@ -67,11 +74,18 @@ class PyHud(object):
         else:
             self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
+
+        self.headlessInstances = self.appLoader.load_headless_apps(self)
+        for app in self.headlessInstances:
+            app.on_init()
+
         apps = self.appLoader.load_apps(self, self.page)
         self.runningApps = apps
         for a in self.runningApps:
+            a.on_init()
             a.on_load()
-        print(apps)
+
+
         self.run()
 
     def run(self):
@@ -107,7 +121,7 @@ class PyHud(object):
                         else:
                             found = False
                             if self.dialog.display_x < pos[0] < self.dialog.display_x + self.dialog.display_width:
-                                if self.dialog.display_y < pos[1] < self.dialog.display_y + self.dialog.display_width:
+                                if self.dialog.display_y < pos[1] < self.dialog.display_y + self.dialog.display_height:
                                     self.dialog.clicked(pos[0], pos[1], 0)
                                     found = True
                             if not found:
@@ -201,8 +215,14 @@ class PyHud(object):
             dialogX = self.width / 2 - self.dialog.display_width / 2
             dialogY = self.height / 2 - self.dialog.display_height / 2
             if self.firstDialogRun:
-                pygame.draw.rect(self.screen, (40, 40, 40, 10),
+                if self.dialogs.length() == 1:
+                    self.screen.blit(self.background, self.background.get_rect())
+                pygame.draw.rect(self.screen, (0, 0, 0),
+                                 (dialogX - 10, dialogY - 10, self.dialog.display_width + 20,
+                                  self.dialog.display_height + 20))
+                pygame.draw.rect(self.screen, self.dialog.background_color,
                                  (dialogX, dialogY, self.dialog.display_width, self.dialog.display_height))
+
             if self.dialog.is_invalidated():
                 elements = self.dialog.get_all_invalidated_elements()
                 for element in elements:
@@ -210,7 +230,8 @@ class PyHud(object):
                     elementX = dialogX + element.x
                     elementY = dialogY + element.y
                     element.render()
-                    pygame.draw.rect(self.screen, (40, 40, 40, 10), (elementX, elementY, element.w, element.h))
+                    pygame.draw.rect(self.screen, self.dialog.background_color,
+                                     (elementX, elementY, element.w, element.h))
                     self.screen.blit(element.drawSurface, (elementX, elementY))
                     toUpdate.append((elementX, elementY, element.w, element.h))
 
@@ -243,8 +264,10 @@ class PyHud(object):
         dialogY = self.height / 2 - display_height / 2
         dialog.load(dialogX, dialogY, display_width, display_height)
         self.dialog = dialog
+        self.dialogs.push(self.dialog)
+        self.firstDialogRun = True
 
-    def show_app_dialog(self,app,on_load,on_close):
+    def show_app_dialog(self, app, on_load, on_close):
         app.set_parent(self)
         dialog = AppDialog(on_load, on_close, app)
         display_width = self.width - ((self.width / 30) * 2)
@@ -253,6 +276,20 @@ class PyHud(object):
         dialogY = self.height / 2 - display_height / 2
         dialog.load(dialogX, dialogY, display_width, display_height)
         self.dialog = dialog
+        self.dialogs.push(self.dialog)
+        self.firstDialogRun = True
+
+    def show_picklist_dialog(self, layout_file, parent_app, on_load, on_close):
+        dialog = LayoutDialog(layout_file, on_load, on_close, parent_app)
+        dialog.set_background_color((70, 70, 70, 255))
+        display_width = self.width - ((self.width / 10) * 8)
+        display_height = self.height - ((self.height / 5) * 2)
+        dialogX = self.width / 2 - display_width / 2
+        dialogY = self.height / 2 - display_height / 2
+        dialog.load(dialogX, dialogY, display_width, display_height)
+        self.dialog = dialog
+        self.dialogs.push(self.dialog)
+        self.firstDialogRun = True
 
     def get_system_resource(self, file):
         return "system/resources/" + file
@@ -267,7 +304,64 @@ class PyHud(object):
 
     def close_dialog(self, result):
         self.dialog = None
+        self.dialogs.pop()
+        if not self.dialogs.empty():
+            self.dialog = self.dialogs.peek()
+            self.dialog.invalidate_all()
         for app in self.runningApps:
             app.invalidate_layout()
         self.firstRun = True
         self.firstDialogRun = True
+
+    def get_display_config_value(self, key):
+        if key in self.configData:
+            return self.configData[key]
+        return None
+
+    def set_display_config_value(self, key, value):
+        self.configData[key] = value
+        self.flush_config_to_disk()
+        if key is "font":
+            self.font_system = FontSystem(self)
+
+    def flush_config_to_disk(self):
+        with open('system/display_config.json', 'w') as outfile:
+            json.dump(self.configData, outfile)
+
+    def get_app_icon(self, app_name):
+        i = self.appLoader.get_app_info()
+        for app in i:
+            if app['app_name'] == app_name:
+                value = app
+                if "app_icon" in value:
+                    icon = value['app_icon']
+                    icon = self.get_app_resource(value, icon)
+                else:
+                    icon = "system/resources/images/default_app_icon.png"
+                return icon
+        return None
+
+    def get_app_json_value(self, app_name,key):
+        i = self.appLoader.get_app_info()
+        for app in i:
+            if app['app_name'] == app_name:
+                value = app
+                if key in value:
+                    return value[key]
+        return None
+
+    def get_headless_instance(self, app_name):
+        for app in self.headlessInstances:
+            if app.get_name() == app_name:
+                return app
+        return None
+
+    def is_debug(self):
+        keys = pygame.key.get_pressed()
+        if self.previous_debug is not keys[pygame.K_d]:
+            for app in self.runningApps:
+                app.invalidate_layout()
+            if self.dialog is not None:
+                self.dialog.invalidate_all()
+        self.previous_debug = keys[pygame.K_d]
+        return keys[pygame.K_d]

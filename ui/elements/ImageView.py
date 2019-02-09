@@ -6,6 +6,7 @@ import pygame
 class ImageView(UIElement):
     def __init__(self, x, y, w, h, id, image_width_pct, image_height_pct, image_path, parent):
         super().__init__(x, y, w, h, id, parent)
+        print(image_path)
         self.image_width_pct = image_width_pct
         self.image_height_pct = image_height_pct
         self.image_height_pixels = -1
@@ -18,13 +19,16 @@ class ImageView(UIElement):
 
     def set_image(self, path):
         self.invalidated = True
-        self.image = pygame.image.load(path)
+        print(path)
+        relPath = self.parent.get_path_to_resource(path)
+        print(relPath)
+        self.image = pygame.image.load(relPath)
         self.calculate_size()
         self.image = pygame.transform.scale(self.image,
                                             (int(self.image_width_pixels), int(self.image_height_pixels)))
 
     def render(self):
-        self.drawSurface.fill((0, 0, 0, 0), (0, 0, self.w, self.h))
+        super().render()
         if self.image is not None:
             self.drawSurface.blit(self.image, (self.draw_x, self.draw_y))
 

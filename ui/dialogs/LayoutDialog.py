@@ -6,19 +6,27 @@ class LayoutDialog(Dialog):
         super().__init__(on_load, on_close, parent_app)
         self.layout_file = layout_file
         self.layout = None
+        self.show_buttons = False
 
     def load(self, display_x, display_y, display_width, display_height):
         super().load(display_x, display_y, display_width, display_height)
         inflator = self.parent_app.parent.layout_inflator
-        self.layout = inflator.inflate_layout(self.layout_file, display_width, display_height - (display_height / 10),
+
+        bottom_spacing = display_height / 10
+        if not self.show_buttons:
+            bottom_spacing = 0
+
+        self.layout = inflator.inflate_layout(self.layout_file, display_width, display_height - bottom_spacing,
                                               self.parent_app.parent, self.parent_app)
         self.on_load(self.layout)
-        bottomBar = inflator.inflate_layout(self.parent_app.parent.get_system_resource("layouts/dialog_ok_cancel.xml"),
-                                            display_width, display_height / 10, self.parent_app.parent, self.parent_app)
 
-        self.layout.insert_layout_at(bottomBar, 0, display_height - (display_height / 10))
+        if self.show_buttons:
+            bottomBar = inflator.inflate_layout(self.parent_app.parent.get_system_resource("layouts/dialog_ok_cancel.xml"),
+                                                display_width,bottom_spacing, self.parent_app.parent, self.parent_app)
 
-        self.layout.get_element_by_id("dialog_ok").clickListener = lambda x, y, button: self.close(0)
+            self.layout.insert_layout_at(bottomBar, 0, display_height -bottom_spacing)
+
+            self.layout.get_element_by_id("dialog_ok").clickListener = lambda x, y, button: self.close(0)
 
         return self
 
@@ -34,6 +42,10 @@ class LayoutDialog(Dialog):
         else:
             return False
 
+    def invalidate_all(self):
+        if self.layout is not None:
+           self.layout.invalidate_children()
+
     def update(self):
         if self.layout is not None:
             self.layout.update(self)
@@ -45,3 +57,6 @@ class LayoutDialog(Dialog):
     def dragged(self, x, y, button, delta):
         if self.layout is not None:
             self.layout.dragged(x - self.display_x, y - self.display_y, button, delta)
+
+    def set_show_buttons(self,show_buttons):
+        self.show_buttons = show_buttons

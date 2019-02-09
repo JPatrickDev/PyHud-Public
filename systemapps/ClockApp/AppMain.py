@@ -5,12 +5,6 @@ from ui.layout.LayoutInflator import LayoutInflator
 
 class ClockApp(PyHudApp):
 
-    def __init__(self):
-        super().__init__()
-
-    def render(self, surface):
-        pass
-
     def get_version(self):
         return "1.0"
 
@@ -19,17 +13,11 @@ class ClockApp(PyHudApp):
 
     def on_load(self):
         self.prev_time = ""
-        inflator = self.parent.layout_inflator
-        assert isinstance(inflator, LayoutInflator)
-        layout = inflator.inflate_layout("test.xml", self.w, self.h, self.parent, self)
-        super().set_layout(layout)
+        self.set_layout_file("test.xml")
         update = lambda: self.updateTime()
         time_update = RepeatEvent(update, 0.25, self)
         self.parent.event_scheduler.add_event(time_update)
         self.updateTime()
-
-        self.layout.get_element_by_id("clock_text").clickListener = lambda x, y, button: self.parent.show_dialog(
-            "dialog.xml", self, lambda x: print("Loaded" + str(x)), lambda: print("Closed"))
 
     def updateTime(self):
         if self.layout is None:

@@ -1,0 +1,3 @@
+<layout gridW="1" gridH="1">
+     <ListView id="picklist_list_view" x="0" y="0" w="1" h="1" layout_file = "system/resources/layouts/picklist_list_item.xml"></ListView>
+</layout>

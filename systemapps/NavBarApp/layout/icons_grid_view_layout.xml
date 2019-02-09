@@ -1,0 +1,3 @@
+<layout gridW="1" gridH="1">
+    <ImageView id = "icons_grid_view_layout_icon_image" x = "0" y = "0" w = "1" h = "1" image_height = "0.8" image_path = "system/resources/images/icons_wifi_off.png"></ImageView>
+</layout>

@@ -1,0 +1,4 @@
+<layout gridW="5" gridH="7">
+    <ImageView id="image_view" x="1" y="0" w="3" h="7" image_height = "1" image_path="system/resources/images/default_app_icon.png"/>
+
+</layout>

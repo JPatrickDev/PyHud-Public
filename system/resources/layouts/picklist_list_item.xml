@@ -1,0 +1,3 @@
+<layout gridW="1" gridH="1">
+     <TextBox id="picklist_list_item_text" x="0" y="0" w="1" h="1"></TextBox>
+</layout>

@@ -1,16 +1,28 @@
 {
   "home": {
-    "ClockApp": {
+ "ClockApp": {
       "xPos": 1,
       "yPos": 0,
-      "width": 8,
-      "height": 3
+      "width": 48,
+      "height": 10
+    },
+    "WeatherApp": {
+      "xPos": 0,
+      "yPos": 11,
+      "width": 50,
+      "height": 40
     },
     "ToolbarApp": {
       "xPos": 0,
-      "yPos": 9,
-      "width": 10,
-      "height": 1
+      "yPos": 41,
+      "width": 50,
+      "height": 5
+    },
+    "NavBarApp": {
+      "xPos": 0,
+      "yPos": 46,
+      "width": 50,
+      "height": 4
     }
   },
   "trains": {

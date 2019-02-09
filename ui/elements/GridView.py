@@ -16,7 +16,7 @@ class GridView(UIElement):
         self.scrollPos = 0.0
         self.gravity = 0
         self.i = 0
-        self.heightValue = 3
+
         self.num_cols = num_cols
 
         self.scroll_start_time = -1
@@ -24,9 +24,16 @@ class GridView(UIElement):
         self.item_click_listener = None
 
         self.col_width = w / num_cols
+
+        self.heightValue = 1
         self.row_height = h / self.heightValue
 
-        self.surface = pygame.Surface((int(self.w), int(self.h / self.heightValue)), pygame.SRCALPHA, 32)
+        self.set_height_value(1)
+
+    def set_height_value(self, value):
+        self.heightValue = 3
+        self.row_height = self.h / self.heightValue
+        self.surface = pygame.Surface((int(self.w), int(self.row_height)), pygame.SRCALPHA, 32)
         self.surface = self.surface.convert_alpha()
 
     def setValues(self, values):
@@ -43,11 +50,11 @@ class GridView(UIElement):
             assert isinstance(layout, UILayout)
             if self.adapter is not None:
                 self.adapter(value, layout)
-            self.currentViews.append(layout)
+                self.currentViews.append(layout)
         self.parent.parent.run_on_new_thread(lambda: self.cache_surfaces())
 
     def render(self):
-        self.drawSurface.fill((255, 0, 0, 0), (0, 0, self.w, self.h))
+        super().render()
         yPos = -self.scrollPos
         xPos = 0
         i = 0
@@ -119,6 +126,9 @@ class GridView(UIElement):
             self.scrollPos = self.getMaxScrollPos()
             self.gravity = 0
             self.invalidated = True
+
+        if self.get_row_count() * self.row_height < self.h:
+            self.scrollPos = -(self.h / 2 - self.row_height / 2)
 
     def update(self, parent):
         self.validate_scroll_pos()

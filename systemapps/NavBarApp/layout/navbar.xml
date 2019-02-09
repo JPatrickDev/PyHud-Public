@@ -1,0 +1,6 @@
+<layout gridW="50" gridH="20">
+    <SpacerView id = "top" x = "0" y = "0" h = "2" w = "50" background_color = "(0,0,0)"></SpacerView>
+    <TextBox id="navbar_time" x="0" y="2" w="5" h="18" textHeight="1">16:20</TextBox>
+    <SpacerView id = "background" x = "5" y = "2" h = "18" w = "40"></SpacerView>
+    <GridView id="navbar_icons" x="45" y="2" w="5" h="18" num_cols = "2" layout_file = "icons_grid_view_layout.xml"></GridView>
+</layout>

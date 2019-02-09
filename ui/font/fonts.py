@@ -2,13 +2,14 @@ import pygame
 import pygame.freetype
 
 
-class Fonts(object):
-    fontsDict = {}
+class FontSystem(object):
 
-    def __init__(self):
+    def __init__(self, parent):
+        self.fontsDict = {}
         pygame.freetype.init()
         for i in range(8, 240, 8):
-            self.fontsDict[str(i)] = pygame.freetype.Font("AnonymousPro-Regular.ttf", i)
+            self.fontsDict[str(i)] = pygame.freetype.Font("fonts/" + parent.get_display_config_value("font") + "/1.ttf",
+                                                          i)
 
     def drawLine(self, text, x, y, parentWidth, parentHeight, targetWidth, targetHeight, surface):
         validFonts = []

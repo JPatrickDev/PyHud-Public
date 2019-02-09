@@ -1,9 +1,14 @@
+import random
+
+
 class UILayout(object):
 
     def __init__(self):
         self.elements = {}
+        self.debug_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 255)
 
     def render(self, surface):
+       # surface.fill(self.debug_color)
         for element in self.elements.values():
             if element.invalidated and not element.disposed:
                 # Invalidate first, so the element can be re-invalidated inside the render method

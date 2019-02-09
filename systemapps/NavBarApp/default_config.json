@@ -1,0 +1,24 @@
+{
+  "dock_cols": 5,
+  "dock_layout": [
+    {
+      "type": "app",
+      "value": "ClockApp"
+    },
+    {
+      "type": "app",
+      "value": "TrainApp"
+    },
+    {
+      "type": "app_grid"
+    },
+    {
+      "type": "app",
+      "value": "SettingsApp"
+    },
+    {
+      "type": "app",
+      "value": "ClockApp"
+    }
+  ]
+}

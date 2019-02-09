@@ -1,0 +1,6 @@
+<layout gridW="20" gridH="24">
+    <TextBox id="dialog_title" x="0" y="0" w="4" h="18" textHeight="1">App Title</TextBox>
+    <TextBox id="dialog_close_button" x="19" y="0" w="1" h="17"  textHeight="0.25">  X  </TextBox>
+
+    <SpacerView id="dialog_title_spacer" x="0" y="18" w="20" h="2" background_color="(0,0,0)"></SpacerView>
+</layout>

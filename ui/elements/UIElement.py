@@ -1,3 +1,5 @@
+import random
+
 import pygame
 from abc import abstractmethod
 
@@ -12,6 +14,7 @@ class UIElement(Clickable, object):
         self.w = w
         self.h = h
         self.id = id
+        self.debug_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 255)
         self.clickListener = None
         self.invalidated = True
         self.disposed = False
@@ -20,9 +23,10 @@ class UIElement(Clickable, object):
         self.drawSurface = pygame.Surface((int(w), int(h)), pygame.SRCALPHA, 32)
         self.drawSurface = self.drawSurface.convert_alpha()
 
-    @abstractmethod
     def render(self):
-        pass
+        self.drawSurface.fill(self.parent.background_color)
+        if self.parent.parent.is_debug():
+            self.drawSurface.fill((255,0,0))
 
 
     def clicked(self, x, y, button):

@@ -10,7 +10,7 @@ import pygame
 class PyHudApp(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self):
+    def __init__(self, headless):
         self.x = 0
         self.y = 0
         self.w = 0
@@ -18,10 +18,12 @@ class PyHudApp(object):
         self.parent = None
         self.layout = None
         self.isSystemApp = False
-
+        self.headless = headless
         self.drawSurface = None
 
-        #Used for debugging
+        self.background_color = (0, 0, 0, 0)
+
+        # Used for debugging
         self.uid = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(32))
 
     def init_config(self):
@@ -98,7 +100,7 @@ class PyHudApp(object):
             with open(self.get_path_to_file_in_app_folder("default_config.json")) as f:
                 shutil.copy(self.get_path_to_file_in_app_folder("default_config.json"),
                             self.get_path_to_file_in_app_folder("config.json"))
-                self.init_config(self)
+                self.init_config()
         except FileNotFoundError:
             pass
 
@@ -128,7 +130,21 @@ class PyHudApp(object):
         if "system/resources" in file:
             return file
         else:
+            if "systemapps/"  in file or "apps/" in file:
+                return file
             return self.get_path_to_file_in_app_folder(file)
 
     def get_app_icon_path(self):
         return "system/resources/images/default_app_icon.png"
+
+    def set_layout_file(self, layout_file):
+        layout = self.parent.layout_inflator.inflate_layout(layout_file, self.w, self.h, self.parent, self)
+        self.set_layout(layout)
+        return self.layout
+
+    @staticmethod
+    def get_icons():
+        return []
+
+    def on_init(self):
+        pass

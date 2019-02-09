@@ -1,9 +1,17 @@
 class XMLElementParameters:
     def __init__(self, xml):
-        self.xml = xml
-        self.attributes = xml.attrib
-        self.text = xml.text
+        if xml is not None:
+            self.xml = xml
+            self.attributes = xml.attrib
+            self.text = xml.text
 
+    def set_dict(self,dict):
+        self.attributes = dict
+        self.text = ""
+
+    def __init(self,xml , mode):
+        self.attributes = xml
+        self.text = ""
     def has_parameter(self, key):
         return key in self.attributes
 
