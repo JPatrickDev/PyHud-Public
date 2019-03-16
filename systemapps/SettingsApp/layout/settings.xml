@@ -1,3 +1,6 @@
-<layout gridW="3" gridH="10">
-  <Picklist id="font_picklist" x="0" y="0" w="3" h="1" textWidth="1" layout_file = "system/resources/layouts/simple_list_item.xml">Font</Picklist>
+<layout gridW="4" gridH="10">
+    <Picklist id="font_picklist" x="1" y="0" w="2" h="1" textWidth="1"
+              layout_file="system/resources/layouts/simple_list_item.xml">Font</Picklist>
+    <TextBox id="fullscreen_label" x="1" y="1" w="1" h="1" textWidth="1">Fullscreen</TextBox>
+    <Checkbox id="fullscreen" x="2" y="1" w="1" h="1"></Checkbox>
 </layout>	

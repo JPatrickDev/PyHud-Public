@@ -2,6 +2,7 @@ import time
 import xml.etree.ElementTree as tree
 from ast import literal_eval
 
+from ui.elements.Checkbox import Checkbox
 from ui.elements.SpacerView import SpacerView
 from ui.elements.GridView import GridView
 from ui.elements.ImageView import ImageView
@@ -52,6 +53,8 @@ class LayoutInflator(object):
                 element = Picklist.from_XML_element_parameters(params, app, (x, y, w, h))
             if child.tag == "SpacerView":
                 element = SpacerView.from_XML_element_parameters(params, app, (x, y, w, h))
+            if child.tag == "Checkbox":
+                element = Checkbox.from_XML_element_parameters(params, app, (x, y, w, h))
             if element is not None:
                 layout.elements[element_id] = element
         return layout

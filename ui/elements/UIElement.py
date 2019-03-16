@@ -26,13 +26,12 @@ class UIElement(Clickable, object):
     def render(self):
         self.drawSurface.fill(self.parent.background_color)
         if self.parent.parent.is_debug():
-            self.drawSurface.fill((255,0,0))
-
+            self.drawSurface.fill(self.debug_color)
 
     def clicked(self, x, y, button):
         if self.clickListener is not None:
             self.invalidated = True
-            return self.clickListener(x, y, button)
+            return self.clickListener(x, y, button, self)
         return False
 
     def dragged(self, x, y, button, delta):

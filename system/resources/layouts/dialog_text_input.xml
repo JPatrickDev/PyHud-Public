@@ -1,0 +1,35 @@
+<layout gridW="42" gridH="10">
+    <TextBox id="text_input_value" x="0" y="0" w="42" h="2" textHeight="0.4">...</TextBox>
+    <TextBox id="text_input_keyboard_q" x="2" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">q</TextBox>
+    <TextBox id="text_input_keyboard_w" x="6" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">w</TextBox>
+    <TextBox id="text_input_keyboard_e" x="10" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">e</TextBox>
+    <TextBox id="text_input_keyboard_r" x="14" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">r</TextBox>
+    <TextBox id="text_input_keyboard_t" x="18" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">t</TextBox>
+    <TextBox id="text_input_keyboard_y" x="22" y="2" w="2" h="2" textHeight="0.4"   font_size = "64">y</TextBox>
+    <TextBox id="text_input_keyboard_u" x="26" y="2" w="2" h="2" textHeight="0.4"   font_size = "64">u</TextBox>
+    <TextBox id="text_input_keyboard_i" x="30" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">i</TextBox>
+    <TextBox id="text_input_keyboard_o" x="34" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">o</TextBox>
+    <TextBox id="text_input_keyboard_p" x="38" y="2" w="2" h="2" textHeight="0.4"  font_size = "64">p</TextBox>
+
+    <TextBox id="text_input_keyboard_a" x="3" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">a</TextBox>
+    <TextBox id="text_input_keyboard_s" x="7" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">s</TextBox>
+    <TextBox id="text_input_keyboard_d" x="11" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">d</TextBox>
+    <TextBox id="text_input_keyboard_f" x="15" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">f</TextBox>
+    <TextBox id="text_input_keyboard_g" x="19" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">g</TextBox>
+    <TextBox id="text_input_keyboard_h" x="23" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">h</TextBox>
+    <TextBox id="text_input_keyboard_j" x="27" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">j</TextBox>
+    <TextBox id="text_input_keyboard_k" x="31" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">k</TextBox>
+    <TextBox id="text_input_keyboard_l" x="35" y="4" w="2" h="2" textHeight="0.4"  font_size = "64">l</TextBox>
+
+
+    <TextBox id="text_input_keyboard_z" x="7" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">z</TextBox>
+    <TextBox id="text_input_keyboard_x" x="11" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">x</TextBox>
+    <TextBox id="text_input_keyboard_c" x="15" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">c</TextBox>
+    <TextBox id="text_input_keyboard_v" x="19" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">v</TextBox>
+    <TextBox id="text_input_keyboard_b" x="23" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">b</TextBox>
+    <TextBox id="text_input_keyboard_n" x="27" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">n</TextBox>
+    <TextBox id="text_input_keyboard_m" x="31" y="6" w="2" h="2" textHeight="0.4"  font_size = "64">m</TextBox>
+
+    <TextBox id="text_input_keyboard_space" x="1" y="8" w="40" h="2" textHeight="0.6" textWidth = "0.6">_</TextBox>
+
+</layout>
