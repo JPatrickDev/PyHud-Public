@@ -8,9 +8,10 @@ from ast import literal_eval
 class Picklist(TextBox):
 
     def __init__(self, x, y, w, h, id, text, textWidth, textHeight, layout_file,backgroundColor, parent):
-        super().__init__(x, y, w, h, id, text , textWidth, textHeight, backgroundColor, parent)
+        super().__init__(x, y, w, h, id, text , textWidth, textHeight, backgroundColor, False, -1, parent)
         self.values = []
         self.selected = ""
+        self.listener = None
 
     def clicked(self, x, y, button):
         print("Clicked")

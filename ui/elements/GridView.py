@@ -52,13 +52,16 @@ class GridView(UIElement):
                 self.adapter(value, layout)
                 self.currentViews.append(layout)
         self.parent.parent.run_on_new_thread(lambda: self.cache_surfaces())
+        self.validate_scroll_pos()
 
     def render(self):
         super().render()
         yPos = -self.scrollPos
         xPos = 0
         i = 0
-        self.validate_scroll_pos()
+
+        if self.gravity is not 0:
+            self.validate_scroll_pos()
         for elementSurface in self.cachedSurfaces:
             if yPos >= self.h:
                 break
@@ -70,7 +73,9 @@ class GridView(UIElement):
                 xPos = 0
                 yPos += self.row_height
         self.scrollPos += self.gravity
-        self.validate_scroll_pos()
+
+        if self.gravity is not 0:
+            self.validate_scroll_pos()
 
         if self.gravity is not 0:
             percent = self.scrollPos / self.getMaxScrollPos()
@@ -83,14 +88,18 @@ class GridView(UIElement):
         for view in self.currentViews:
             view.invalidate_children()
             assert isinstance(view, UILayout)
-            self.surface.fill((0, 0, 0, 0), (0, 0, self.col_width, self.row_height))
+            firstItem = list(view.elements.keys())[0]
+            fill_colour = (0, 0, 0, 0)
+
+          #      view.elements[firstItem].debug_color
+            self.surface.fill(fill_colour, (0, 0, self.col_width, self.row_height))
             view.render(self.surface)
             self.cachedSurfaces.append(self.surface.copy().convert_alpha())
             self.invalidated = True
-            print("Surface cached")
 
     def clicked(self, x, y, button):
         self.invalidated = True
+        self.validate_scroll_pos()
         if self.gravity == 0 or self.scroll_start_time == -1:
             self.item_click(x, y)
         else:
@@ -131,7 +140,6 @@ class GridView(UIElement):
             self.scrollPos = -(self.h / 2 - self.row_height / 2)
 
     def update(self, parent):
-        self.validate_scroll_pos()
         if self.gravity > 0:
             self.gravity -= 0.01
         elif self.gravity < 0:
@@ -148,13 +156,22 @@ class GridView(UIElement):
         return self.row_height * self.get_row_count() - self.h
 
     def item_click(self, x, y):
+        x = x - self.x
+        y = y - self.y
         self.validate_scroll_pos()
         grid_x = math.floor(x / self.col_width)
         grid_y = math.floor((y + self.scrollPos) / self.row_height)
         i = grid_x + grid_y * self.num_cols
+        if self.values is None:
+            return
         if self.item_click_listener is not None:
             if 0 <= i < self.values.__len__():
                 self.item_click_listener(self.values[i])
+        if 0 <= i < self.values.__len__():
+            y_origin = grid_y * self.row_height
+            print(str(y_origin))
+            print(str((y - self.y - self.scrollPos) - y_origin))
+            self.currentViews[i].clicked(x, (y + self.scrollPos) - y_origin, 0)
 
     @staticmethod
     def from_XML_element_parameters(params, parent, bounds):

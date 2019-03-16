@@ -29,24 +29,30 @@ class WeatherApp(PyHudApp):
 
     def on_init(self):
         super().on_init()
+        self.location = self.get_config_value("location")
+        self.api_key = self.get_config_value("api_key")
+
+        update = RepeatEvent(lambda: self.fetch_latest_weather_data(),
+                                   float(self.get_config_value("refresh_rate")), self)
+        self.parent.event_scheduler.add_event(update)
+        self.fetch_latest_weather_data()
 
 
     def on_load(self):
 
-        self.location = self.get_config_value("location")
-        self.api_key = self.get_config_value("api_key")
 
         layout = self.set_layout_file("home.xml")
         self.fetch_latest_weather_data()
-        self.update_ui()
 
 
     def fetch_latest_weather_data(self):
-        with urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?id=" + self.location + "&appid=" + self.api_key + "&units=metric") as url:
-            data = json.loads(url.read().decode())
-            print(data)
-            self.latest_data = data
-            self.update_ui()
+        try:
+            with urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?id=" + self.location + "&appid=" + self.api_key + "&units=metric") as url:
+                data = json.loads(url.read().decode())
+                self.latest_data = data
+                self.update_ui()
+        except Exception:
+            pass
 
     def update_ui(self):
         if self.layout is None:

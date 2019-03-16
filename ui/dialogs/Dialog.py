@@ -10,6 +10,11 @@ class Dialog:
         self.background_color = (40, 40, 40, 255)
         self.padding_ratio = 20
 
+        if self.on_load is None:
+            self.on_load = lambda layout: None
+        if self.on_close is None:
+            self.on_close = lambda result: None
+
     def load(self, display_x, display_y, display_width, display_height):
         self.display_x = display_x
         self.display_y = display_y
@@ -40,8 +45,9 @@ class Dialog:
         pass
 
     def close(self, result):
+        print("Close called")
         # TODO
         self.parent_app.parent.close_dialog(result)
 
-    def set_background_color(self,color):
+    def set_background_color(self, color):
         self.background_color = color

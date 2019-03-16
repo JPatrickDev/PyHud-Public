@@ -8,6 +8,7 @@ from app.internal.AppLoader import AppLoader
 from system.Stack import Stack
 from ui.dialogs.AppDialog import AppDialog
 from ui.dialogs.Dialog import Dialog
+from ui.dialogs.KeyboardDialog import KeyboardDialog
 from ui.dialogs.LayoutDialog import LayoutDialog
 from ui.font.fonts import FontSystem
 from ui.layout.LayoutInflator import LayoutInflator
@@ -15,7 +16,7 @@ from .util.EventScheduler import *
 
 
 class PyHud(object):
-    VERSION = "1.1"
+    VERSION = "2.0"
 
     def __init__(self):
         self.screen = None
@@ -68,7 +69,8 @@ class PyHud(object):
 
         pygame.init()
         self.event_scheduler = EventScheduler(self)
-        size = self.width, self.height
+        self.size = self.width, self.height
+        size = self.size
         if self.fullScreen == "False":
             self.screen = pygame.display.set_mode(size)
         else:
@@ -125,7 +127,7 @@ class PyHud(object):
                                     self.dialog.clicked(pos[0], pos[1], 0)
                                     found = True
                             if not found:
-                                self.close_dialog(-1)
+                                self.dialog.close(-1)
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.mouseDown = True
                     self.mouseDownTime = time.time()
@@ -290,6 +292,19 @@ class PyHud(object):
         self.dialog = dialog
         self.dialogs.push(self.dialog)
         self.firstDialogRun = True
+
+    def show_keyboard_dialog(self,textbox, parent_app):
+        dialog = KeyboardDialog(textbox,parent_app)
+        dialog.set_background_color((70, 70, 70, 255))
+        display_width = self.width - ((self.width / 10) * 2)
+        display_height = self.height - ((self.height / 5) * 2)
+        dialogX = self.width / 2 - display_width / 2
+        dialogY = self.height / 2 - display_height / 2
+        dialog.load(dialogX, dialogY, display_width, display_height)
+        self.dialog = dialog
+        self.dialogs.push(self.dialog)
+        self.firstDialogRun = True
+
 
     def get_system_resource(self, file):
         return "system/resources/" + file

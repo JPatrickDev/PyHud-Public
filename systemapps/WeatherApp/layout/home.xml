@@ -1,7 +1,7 @@
 <layout gridW="20" gridH="20">
     <TextBox id="location_name" x="0" y="0" w="20" h="2" textHeight="0.8"></TextBox>
 
- <TextBox id="temp_min" x="5" y="4" w="3" h="1" textHeight="0.1"></TextBox>
-    <TextBox id="temp_current" x="8" y="2" w="4" h="3" textHeight="0.1"></TextBox>
-     <TextBox id="temp_max" x="12" y="4" w="3" h="1" textHeight="0.1"></TextBox>
+ <TextBox id="temp_min" x="5" y="4" w="3" h="1" textHeight="0.5"></TextBox>
+    <TextBox id="temp_current" x="8" y="2" w="4" h="3" textHeight="0.5"></TextBox>
+     <TextBox id="temp_max" x="12" y="4" w="3" h="1" textHeight="0.5"></TextBox>
 </layout>
